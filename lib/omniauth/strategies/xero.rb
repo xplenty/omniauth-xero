@@ -29,7 +29,12 @@ module OmniAuth
       private
 
       def raw_info
+        set_connection_headers
         @raw_info ||= users.find { |user| user["IsSubscriber"] }
+      end
+
+      def set_connection_headers
+        access_token.client.connection.headers['User-Agent'] = "omniauth-xero/#{::OmniAuth::Xero::VERSION} #{options.client_id}"
       end
 
       def users
